@@ -232,7 +232,12 @@ const SignInScreen = ({navigation}) => {
             <View style={styles.button}>
                 <TouchableOpacity
                     style={styles.signIn}
-                    onPress={() => {navigation.navigate("HomeScreen")}}
+                    onPress={() => {navigation.navigate("HomeScreen")
+                    {{name: 'dsadas' }}
+                }
+                
+                    
+                }
                 >
                 <LinearGradient
                     colors={['#08d4c4', '#01ab9d']}
