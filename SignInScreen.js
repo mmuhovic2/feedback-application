@@ -13,48 +13,69 @@ import * as Animatable from 'react-native-animatable';
 import {LinearGradient} from 'expo-linear-gradient';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Feather from 'react-native-vector-icons/Feather';
+import { RadioButton } from 'react-native-paper';
 
 const SignInScreen = ({navigation}) => {
 
     const [data, setData] = React.useState({
-        username: '',
-        password: '',
+        IPAdress: '',
+        installationCode: '',
+        ping: '',
         check_textInputChange: false,
         secureTextEntry: true,
         isValidUser: true,
-        isValidPassword: true,
+        isValidInstallationCode: true,
+        isValidPing: true,
     });
 
     const textInputChange = (val) => {
         if( val.trim().length >= 4 ) {
             setData({
                 ...data,
-                username: val,
+                IPAdress: val,
                 check_textInputChange: true,
                 isValidUser: true
             });
         } else {
             setData({
                 ...data,
-                username: val,
+                IPAdress: val,
                 check_textInputChange: false,
                 isValidUser: false
             });
         }
     }
 
-    const handlePasswordChange = (val) => {
-        if( val.trim().length >= 8 ) {
+    const pingInputChange = (val) => {
+        if( !isNaN(val.trim()) && val.trim() !== '' ) {
             setData({
                 ...data,
-                password: val,
-                isValidPassword: true
+                ping: val,
+                check_pingInputChange: true,
+                isValidPing: true
             });
         } else {
             setData({
                 ...data,
-                password: val,
-                isValidPassword: false
+                ping: val,
+                check_pingInputChange: false,
+                isValidPing: false
+            });
+        }
+    }
+
+    const handleInstallationCodeChange = (val) => {
+        if( val.trim().length >= 8 ) {
+            setData({
+                ...data,
+                installationCode: val,
+                isValidInstallationCode: true
+            });
+        } else {
+            setData({
+                ...data,
+                installationCode: val,
+                isValidInstallationCode: false
             });
         }
     }
@@ -66,10 +87,12 @@ const SignInScreen = ({navigation}) => {
         });
     }
 
+    const [checked, setChecked] = React.useState('independent');
+
     return (
       <View style={styles.container}>
         <View style={styles.header}>
-            <Text style={styles.text_header}>Welcome!</Text>
+            <Text style={styles.text_header}>Synchronize your device!</Text>
         </View>
         <Animatable.View 
             animation="fadeInUpBig"
@@ -79,7 +102,7 @@ const SignInScreen = ({navigation}) => {
         >
             <Text style={[styles.text_footer, {
                 color: "black"
-            }]}>Username</Text>
+            }]}>IP Adress</Text>
             <View style={styles.action}>
                 <FontAwesome 
                     name="user-o"
@@ -87,7 +110,7 @@ const SignInScreen = ({navigation}) => {
                     size={20}
                 />
                 <TextInput 
-                    placeholder="Your Username"
+                    placeholder="Your IP Adress"
                     placeholderTextColor="#666666"
                     style={[styles.textInput, {
                         color: "black"
@@ -113,7 +136,7 @@ const SignInScreen = ({navigation}) => {
             <Text style={[styles.text_footer, {
                 color: "black",
                 marginTop: 35
-            }]}>Password</Text>
+            }]}>Installation Code</Text>
             <View style={styles.action}>
                 <Feather 
                     name="lock"
@@ -121,14 +144,14 @@ const SignInScreen = ({navigation}) => {
                     size={20}
                 />
                 <TextInput 
-                    placeholder="Your Password"
+                    placeholder="Your Installation Code"
                     placeholderTextColor="#666666"
                     secureTextEntry={data.secureTextEntry ? true : false}
                     style={[styles.textInput, {
                         color: "black"
                     }]}
                     autoCapitalize="none"
-                    onChangeText={(val) => handlePasswordChange(val)}
+                    onChangeText={(val) => handleInstallationCodeChange(val)}
                 />
                 <TouchableOpacity
                     onPress={updateSecureTextEntry}
@@ -148,6 +171,63 @@ const SignInScreen = ({navigation}) => {
                     }
                 </TouchableOpacity>
             </View>
+
+            <Text style={[styles.text_footer, {
+                color: "black", marginTop: 35
+            }]}>Ping Interval</Text>
+            <View style={styles.action}>
+                <FontAwesome 
+                    name="clock-o"
+                    color={"black"}
+                    size={20}
+                />
+                <TextInput 
+                    placeholder="Ping interval (seconds)"
+                    placeholderTextColor="#666666"
+                    style={[styles.textInput, {
+                        color: "black"
+                    }]}
+                    autoCapitalize="none"
+                    onChangeText={(val) => pingInputChange(val)}
+                />
+                {data.check_pingInputChange ? 
+                <Animatable.View
+                    animation="bounceIn"
+                >
+                    <Feather 
+                        name="check-circle"
+                        color="green"
+                        size={20}
+                    />
+                </Animatable.View>
+                : null}
+            </View>
+
+            <Text style={[styles.text_footer, {
+                color: "black", marginTop: 35
+            }]}>Question Type</Text>
+            <View style={styles.action}>
+                <FontAwesome 
+                    name="question-circle-o"
+                    color={"black"}
+                    size={20}
+                />
+                <RadioButton
+                    style={{marginRight: 50}}
+                    value="independent"
+                    status={ checked === 'independent' ? 'checked' : 'unchecked' }
+                    onPress={() => setChecked('independent')}
+                />
+                <Text style={styles.text_footer}>Independent</Text>
+                <RadioButton
+                    value="dependent"
+                    status={ checked === 'dependent' ? 'checked' : 'unchecked' }
+                    onPress={() => setChecked('dependent')}
+                />
+                <Text style={styles.text_footer}>Dependent</Text>
+                
+            </View>
+           
             
             <View style={styles.button}>
                 <TouchableOpacity
@@ -160,7 +240,7 @@ const SignInScreen = ({navigation}) => {
                 >
                     <Text style={[styles.textSign, {
                         color:'#fff'
-                    }]}>Sign In</Text>
+                    }]}>Synchronize</Text>
                 </LinearGradient>
                 </TouchableOpacity>
 
@@ -226,7 +306,7 @@ const styles = StyleSheet.create({
     },
     button: {
         alignItems: 'center',
-        marginTop: 50
+        marginTop: 35
     },
     signIn: {
         width: '100%',

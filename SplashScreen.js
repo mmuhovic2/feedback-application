@@ -21,7 +21,7 @@ const SplashScreen = ({navigation}) => {
         <View style={styles.header}>
             <Animatable.Image 
                 animation="bounceIn"
-                duraton="1500"
+                duraton="2000"
             source={require('./assets/logo.png')}
             style={styles.logo}
             />
@@ -35,7 +35,7 @@ const SplashScreen = ({navigation}) => {
             <Text style={[styles.title, {
                 color: colors.text
             }]}>We collect your opinions!</Text>
-            <Text style={styles.text}>Sign in with your account</Text>
+            <Text style={styles.text}>Get started and setup your device</Text>
             <View style={styles.button}>
             <TouchableOpacity onPress={()=>navigation.navigate('SignInScreen')}>
                 <LinearGradient
