@@ -4,6 +4,7 @@ export const CampaignContext = React.createContext();
 
 export const CampaignProvider = (props) => {
     const [campaignId, setCampaignId] = useState(1);
+    const [currentQuestion, setCurrentQuestion] = useState(0);
     const [name, setName] = useState("test");
     const [startDate, setStartDate] = useState("DateTime");
     const [endDate, setEndDate] = useState("DateTime");
@@ -88,13 +89,26 @@ export const CampaignProvider = (props) => {
         setQuestions(rows);  
     };
 
+    const getNextQuestion = () => {
+        if (currentQuestion < questions.length-1)
+          setCurrentQuestion(currentQuestion + 1);
+      };
+
+      const getPreviousQuestion = () => {
+        if (currentQuestion > 0)
+          setCurrentQuestion(currentQuestion - 1);
+      };
+
     const values = {
         campaignId,
         name,
         startDate,
         endDate, 
         questions,
-        addAnswer
+        currentQuestion,
+        addAnswer,
+        getNextQuestion,
+        getPreviousQuestion,
     }
 
 

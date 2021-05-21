@@ -10,8 +10,6 @@ import {
   Image
 } from 'react-native';
 import * as Animatable from 'react-native-animatable';
-import { LinearGradient } from 'expo-linear-gradient';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { CampaignContext } from './contexts/CampaignContext'
 import SingleAnswerQuestionScreen from './questionScreens/SingleAnswerQuestionScreen'
 import ScaleQuestionScreen from './questionScreens/ScaleQuestionScreen'
@@ -21,23 +19,11 @@ import MultipleChoiceQuestionScreen from './questionScreens/MultipleChoiceQuesti
 
 
 const QuestionsScreen = ({ navigation }) => {
-  const { questions } = useContext(CampaignContext);
-  const [currentQuestion, setCurrentQuestion] = useState(0);
-
-  const getNextQuestion = () => {
-    if (currentQuestion < questions.length-1)
-      setCurrentQuestion(currentQuestion + 1);
-  };
-
-  const getPreviousQuestion = () => {
-    if (currentQuestion > 0)
-      setCurrentQuestion(currentQuestion - 1);
-  };
+  const { questions, currentQuestion, getNextQuestion, getPreviousQuestion } = useContext(CampaignContext);
 
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <View style={styles.question}>
           {questions[currentQuestion].QuestionType == "single-answer" &&
             <SingleAnswerQuestionScreen question={questions[currentQuestion]}/>
           }
@@ -50,36 +36,6 @@ const QuestionsScreen = ({ navigation }) => {
           {questions[currentQuestion].QuestionType == "multiple-choice" &&
             <MultipleChoiceQuestionScreen question={questions[currentQuestion]}/>
           }
-        </View>
-        <View style={styles.buttonsContainer}>
-        <TouchableOpacity onPress={getPreviousQuestion}>
-          <LinearGradient
-            colors={['#ededed', '#d3d3d3']}
-            style={styles.button}
-          >
-            <MaterialIcons
-              name="navigate-before"
-              color="#000000"
-              size={20}
-            />
-            <Text style={styles.textButton}>Previous </Text>
-          </LinearGradient>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={getNextQuestion}>
-          <LinearGradient
-            colors={['#ededed', '#d3d3d3']}
-            style={styles.button}
-          >
-            <Text style={styles.textButton}>Next</Text>
-            <MaterialIcons
-              name="navigate-next"
-              color="#000000"
-              size={20}
-            />
-          </LinearGradient>
-        </TouchableOpacity>
-
-        </View>
       </View>
     </View>
   );
@@ -103,26 +59,5 @@ const styles = StyleSheet.create({
   logo: {
     width: height_logo,
     height: height_logo
-  },
-  button: {
-    width: 110,
-    height: 40,
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 50,
-    flexDirection: 'row'
-  },
-  textButton: {
-    color: 'black',
-    fontWeight: 'bold'
-  },
-  question: {
-    height: '90%',
-    justifyContent: 'center'
-  },
-  buttonsContainer: {
-   // flex: 1,
-    flexDirection: "row",
-    justifyContent: "space-evenly"
   }
 });
