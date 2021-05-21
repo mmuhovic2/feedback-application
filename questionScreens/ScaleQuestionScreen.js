@@ -3,13 +3,14 @@ import { Text, View, StyleSheet } from 'react-native';
 import ButtonContainer from '../ButtonContainer';
 
 const ScaleQuestionScreen = ({ question }) => {
+  const [answer, setAnswer] = useState("...");
   return (
     <View>
       <View style={styles.question}>
         <Text>This is a scale question</Text>
         <Text>{question.QuestionText}</Text>
       </View>
-      <ButtonContainer />
+      <ButtonContainer answer={answer} />
     </View>
   )
 };

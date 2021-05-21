@@ -1,16 +1,19 @@
 import React, { useState, useContext } from 'react'
-import { Text, View, StyleSheet } from 'react-native';
+import { Text, View, StyleSheet, TextInput } from 'react-native';
 import ButtonContainer from '../ButtonContainer';
 
-const TextQuestionScreen = ({question}) => {
+const TextQuestionScreen = ({ question }) => {
+  const [answer, setAnswer] = useState("...");
 
   return (
     <View>
       <View style={styles.question}>
-      <Text>This is a text question</Text>
-      <Text>{question.QuestionText}</Text>
+        <Text>This is a text question</Text>
+        <TextInput
+          placeholder="Answer"
+          onChangeText={(value) => { setAnswer(value); }}></TextInput>
       </View>
-      <ButtonContainer/>
+      <ButtonContainer answer={answer} />
     </View>
   )
 };

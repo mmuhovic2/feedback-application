@@ -82,28 +82,28 @@ export const CampaignProvider = (props) => {
     },
     ]);
 
-    const addAnswer = (questionId, answer) => {
+    const addAnswer = (answer) => {
         let rows = [...questions];
-        let index = rows.findIndex((obj => obj.QuestionId == questionId));
-        rows[index].QuestionAnswers[0].Answer.AnswerText = answer;
-        setQuestions(rows);  
+        // let index = rows.findIndex((obj => obj.QuestionId == questionId));
+        rows[currentQuestion].QuestionAnswers[0].Answer.AnswerText = answer;
+        setQuestions(rows);
     };
 
     const getNextQuestion = () => {
-        if (currentQuestion < questions.length-1)
-          setCurrentQuestion(currentQuestion + 1);
-      };
+        if (currentQuestion < questions.length - 1)
+            setCurrentQuestion(currentQuestion + 1);
+    };
 
-      const getPreviousQuestion = () => {
+    const getPreviousQuestion = () => {
         if (currentQuestion > 0)
-          setCurrentQuestion(currentQuestion - 1);
-      };
+            setCurrentQuestion(currentQuestion - 1);
+    };
 
     const values = {
         campaignId,
         name,
         startDate,
-        endDate, 
+        endDate,
         questions,
         currentQuestion,
         addAnswer,
