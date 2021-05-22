@@ -1,5 +1,8 @@
 
 import React, { Component, useState } from 'react';
+
+import { Rating, AirbnbRating } from 'react-native-ratings';
+
 import {
     View,
     Text,
@@ -17,21 +20,27 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import RadioButton from './RadioButton';
 
 
-const IndependentQuestionText = ({navigation}) => {
+const IndependentQuestionScale = ({navigation}) => {
     const [text, onChangeText] = React.useState("Unesite odgovor");
   const [number, onChangeNumber] = React.useState(null);
 
-    var question = 'Proizvod koji ste upravo kupili vas je privukao zbog: ';
+    var question = 'Ocjenite kupljeni proizvod: ';
 
     return (
           <View style={{flex: 1, justifyContent: 'center', justifyContent: 'center'}}>
             <Text style={styles.question}>{question}</Text>
 
-            <TextInput
-                    style={styles.input}
-                    onChangeText={onChangeText}
-                    value={text}
-                  />
+            <View style={styles.stars}>
+                <Rating
+                    type='custom'
+                  showRating
+    //              onFinishRating={this.ratingCompleted}
+                   // ratingBackgroundColor='#009387'
+                    ratingColor='#009387'
+                  style={{ paddingVertical: 10 }}
+                />
+            </View>
+
 
 
             <View style={styles.button}>
@@ -44,7 +53,7 @@ const IndependentQuestionText = ({navigation}) => {
         );
 }
 
-export default IndependentQuestionText;
+export default IndependentQuestionScale;
 
 const {height} = Dimensions.get("screen");
 const height_logo = height * 0.2;
@@ -65,4 +74,7 @@ const styles = StyleSheet.create({
         margin: 20,
         borderWidth: 1,
       },
+      stars: {
+          marginBottom: 80
+        },
 });
