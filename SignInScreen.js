@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
     View, 
     Text, 
@@ -6,8 +6,6 @@ import {
     TextInput,
     Platform,
     StyleSheet ,
-    StatusBar,
-    Alert
 } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import {LinearGradient} from 'expo-linear-gradient';
@@ -15,7 +13,12 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Feather from 'react-native-vector-icons/Feather';
 import { RadioButton } from 'react-native-paper';
 
+import {AsyncStorage} from 'react-native';
+
+
 const SignInScreen = ({navigation}) => {
+
+    
 
     const [data, setData] = React.useState({
         IPAdress: '',
@@ -27,6 +30,42 @@ const SignInScreen = ({navigation}) => {
         isValidInstallationCode: true,
         isValidPing: true,
     });
+
+    useEffect(() => {
+        getData();
+    }, [])
+
+    const storeData = async () => {
+        try{
+            console.log('kod ' + data.installationCode);
+            await AsyncStorage.setItem('IPAdress', data.IPAdress);
+            await AsyncStorage.setItem('InstallationCode', data.installationCode);
+            await AsyncStorage.setItem('PingInterval', data.ping);
+        }
+        catch(e){
+            console.log('Spasavanje u AsyncStorage neuspjesno!');
+            console.log(e);
+        }
+    }
+
+    const getData = async () => {
+        try{
+            const IPAdressValue = await AsyncStorage.getItem('IPAdress');
+            const InstallationCodeValue = await AsyncStorage.getItem('InstallationCode');
+            const PingIntervalValue = await  AsyncStorage.getItem('PingInterval');
+
+            if(IPAdressValue != null){
+                console.log('Vrijednost iz AsyncStorage: \n');
+                console.log('Ip adresa iz AS: ' + IPAdressValue);    
+                console.log('Installation code iz AS ' + InstallationCodeValue);    
+                console.log('Ping interval iz AS: ' + PingIntervalValue);    
+            }
+        }
+        catch(e){
+            console.log('Dobavljanje iz AsyncStorage neuspjesno!')
+            console.log(e);
+        }
+    }
 
     const textInputChange = (val) => {
         if( val.trim().length >= 4 ) {
@@ -232,8 +271,10 @@ const SignInScreen = ({navigation}) => {
             <View style={styles.button}>
                 <TouchableOpacity
                     style={styles.signIn}
-                    onPress={() => {navigation.navigate("HomeScreen")
-                    {{name: 'dsadas' }}
+                    onPress={() => {
+                        navigation.navigate("HomeScreen");
+                        storeData();
+                        
                 }
                 
                     
