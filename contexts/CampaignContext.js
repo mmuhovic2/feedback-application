@@ -38,7 +38,7 @@ export const CampaignProvider = (props) => {
             {
                 AnswerId: 1,
                 Answer: {
-                    AnswerText: "test 2",
+                    AnswerText: null,
                     IsApicture: false
                 },
             },
