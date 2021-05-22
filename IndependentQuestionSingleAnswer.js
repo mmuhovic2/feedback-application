@@ -5,6 +5,7 @@ import {
     TouchableOpacity,
     Dimensions,
     StyleSheet,
+    Button,
     StatusBar,
     Image
 } from 'react-native';
@@ -40,12 +41,15 @@ const IndependentQuestionSingleAnswer = ({navigation}) => {
 
     return (
           <View style={{flex: 1, justifyContent: 'center', justifyContent: 'center'}}>
-            <Text>{question}</Text>
-
-
-
+            <Text style={styles.question}>{question}</Text>
             <RadioButton PROP={PROP}/>
-          </View>
+            <View style={styles.button}>
+            <Button
+                title="Submit"
+                color="#009387"
+            />
+             </View>
+           </View>
         );
 }
 
@@ -54,18 +58,18 @@ export default IndependentQuestionSingleAnswer;
 const {height} = Dimensions.get("screen");
 const height_logo = height * 0.2;
 
+
+
+
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#009387'
-  },
-  header: {
-      flex: 2,
-      justifyContent: 'center',
-      alignItems: 'center'
-  },
-  logo: {
-      width: height_logo,
-      height: height_logo
-  },
+  question: {
+          marginBottom: 35,
+          marginLeft: 20,
+          marginRight: 20,
+          fontSize: 25,
+  	},
+  	button: {
+         marginLeft: 190,
+         width: 150
+    }
 });
