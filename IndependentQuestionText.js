@@ -19,7 +19,7 @@ import RadioButton from './RadioButton';
 
 const IndependentQuestionText = ({navigation}) => {
     const [text, onChangeText] = React.useState("Unesite odgovor");
-  const [number, onChangeNumber] = React.useState(null);
+
 
     var question = 'Proizvod koji ste upravo kupili vas je privukao zbog: ';
 
