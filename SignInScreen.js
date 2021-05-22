@@ -56,7 +56,19 @@ const SignInScreen = ({navigation}) => {
             const PingIntervalValue = await  AsyncStorage.getItem('PingInterval');
             const QuestionType = await  AsyncStorage.getItem('QuestionType');
 
-            if(IPAdressValue != null){
+            
+
+            if(IPAdressValue != null && InstallationCodeValue != null && PingIntervalValue != null){
+
+                setData({
+                    ...data,
+                    IPAdress: IPAdressValue,
+                    installationCode: InstallationCodeValue,
+                    ping: PingIntervalValue,
+                    check_textInputChange: true,
+                    isValidUser: true
+                });
+
                 console.log('Vrijednost iz AsyncStorage: \n');
                 console.log('Ip adresa iz AS: ' + IPAdressValue);    
                 console.log('Installation code iz AS ' + InstallationCodeValue);    
@@ -169,6 +181,7 @@ const SignInScreen = ({navigation}) => {
                     autoCapitalize="none"
                     value={data.IPAdress}
                     onChangeText={(val) => textInputChange(val)}
+                    value={data.IPAdress}
                 />
                 {data.check_textInputChange ? 
                 <Animatable.View
@@ -205,6 +218,7 @@ const SignInScreen = ({navigation}) => {
                     autoCapitalize="none"
                     value={data.installationCode}
                     onChangeText={(val) => handleInstallationCodeChange(val)}
+                    value={data.installationCode}
                 />
                 <TouchableOpacity
                     onPress={updateSecureTextEntry}
@@ -243,6 +257,7 @@ const SignInScreen = ({navigation}) => {
                     autoCapitalize="none"
                     value={data.ping}
                     onChangeText={(val) => pingInputChange(val)}
+                    value={data.ping}
                 />
                 {data.check_pingInputChange ? 
                 <Animatable.View
