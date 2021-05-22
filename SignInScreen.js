@@ -31,7 +31,7 @@ const SignInScreen = ({navigation}) => {
         isValidPing: true,
     });
 
-    useEffect(() => {
+    useEffect( () => {
         getData();
     }, [])
 
@@ -41,6 +41,7 @@ const SignInScreen = ({navigation}) => {
             await AsyncStorage.setItem('IPAdress', data.IPAdress);
             await AsyncStorage.setItem('InstallationCode', data.installationCode);
             await AsyncStorage.setItem('PingInterval', data.ping);
+            await AsyncStorage.setItem('QuestionType', checked);
         }
         catch(e){
             console.log('Spasavanje u AsyncStorage neuspjesno!');
@@ -53,12 +54,23 @@ const SignInScreen = ({navigation}) => {
             const IPAdressValue = await AsyncStorage.getItem('IPAdress');
             const InstallationCodeValue = await AsyncStorage.getItem('InstallationCode');
             const PingIntervalValue = await  AsyncStorage.getItem('PingInterval');
+            const QuestionType = await  AsyncStorage.getItem('QuestionType');
 
             if(IPAdressValue != null){
                 console.log('Vrijednost iz AsyncStorage: \n');
                 console.log('Ip adresa iz AS: ' + IPAdressValue);    
                 console.log('Installation code iz AS ' + InstallationCodeValue);    
-                console.log('Ping interval iz AS: ' + PingIntervalValue);    
+                console.log('Ping interval iz AS: ' + PingIntervalValue);
+                console.log('Question type iz AS: ' + QuestionType);
+                setData({
+                    ...data,
+                    IPAdress: IPAdressValue,
+                    installationCode: InstallationCodeValue,
+                    ping: PingIntervalValue
+                });
+                if(QuestionType !== 'independent') {
+                    setChecked("dependent");
+                }
             }
         }
         catch(e){
@@ -155,6 +167,7 @@ const SignInScreen = ({navigation}) => {
                         color: "black"
                     }]}
                     autoCapitalize="none"
+                    value={data.IPAdress}
                     onChangeText={(val) => textInputChange(val)}
                 />
                 {data.check_textInputChange ? 
@@ -190,6 +203,7 @@ const SignInScreen = ({navigation}) => {
                         color: "black"
                     }]}
                     autoCapitalize="none"
+                    value={data.installationCode}
                     onChangeText={(val) => handleInstallationCodeChange(val)}
                 />
                 <TouchableOpacity
@@ -227,6 +241,7 @@ const SignInScreen = ({navigation}) => {
                         color: "black"
                     }]}
                     autoCapitalize="none"
+                    value={data.ping}
                     onChangeText={(val) => pingInputChange(val)}
                 />
                 {data.check_pingInputChange ? 
