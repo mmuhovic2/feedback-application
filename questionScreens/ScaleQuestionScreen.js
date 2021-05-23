@@ -1,10 +1,12 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import { Text, View, StyleSheet } from 'react-native';
 import ButtonContainer from '../ButtonContainer';
 import Slider from '@react-native-community/slider';
+import { CampaignContext } from '../contexts/CampaignContext'
 
 const ScaleQuestionScreen = ({ question }) => {
-  const [answer, setAnswer] = useState(Number(question.QuestionAnswers[0].Answer.AnswerText));
+  const [answer, setAnswer] = useState(0);
+
   return (
     <View>
       <View style={styles.question}>

@@ -8,8 +8,7 @@ export const CampaignProvider = (props) => {
     const [name, setName] = useState("test");
     const [startDate, setStartDate] = useState("DateTime");
     const [endDate, setEndDate] = useState("DateTime");
-    const [userResponses, setUserResponses] = useState([
-    ]);
+    const [userResponses, setUserResponses] = useState([]);
     const [questions, setQuestions] = useState([{
         QuestionId: 1,
         QuestionType: "single-answer",
@@ -28,80 +27,27 @@ export const CampaignProvider = (props) => {
             },
         ]
     },
-    {
-        QuestionId: 2,
-        QuestionType: "scale",
-        QuestionText: "Primjer pitanja 2",
-        IsDependent: false,
-        Data1: null, //ovaj podatak će biti razlicit od null kada pitanje bude zavisno odnosno IsDependend atribut bude true
-        Data2: null,
-        Data3: null,
-        QuestionAnswers: [
-            {
-                AnswerId: 1,
-                Answer: {
-                    AnswerText: null,
-                    IsApicture: false
-                },
-            },
-        ]
-    },
-    {
-        QuestionId: 3,
-        QuestionType: "text",
-        QuestionText: "Primjer pitanja 3",
-        IsDependent: false,
-        Data1: null, //ovaj podatak će biti razlicit od null kada pitanje bude zavisno odnosno IsDependend atribut bude true
-        Data2: null,
-        Data3: null,
-        QuestionAnswers: [
-            {
-                AnswerId: 1,
-                Answer: {
-                    AnswerText: "test 3",
-                    IsApicture: false
-                },
-            },
-        ]
-    },
-    {
-        QuestionId: 4,
-        QuestionType: "multiple-choice",
-        QuestionText: "Primjer pitanja 4",
-        IsDependent: false,
-        Data1: null, //ovaj podatak će biti razlicit od null kada pitanje bude zavisno odnosno IsDependend atribut bude true
-        Data2: null,
-        Data3: null,
-        QuestionAnswers: [
-            {
-                AnswerId: 1,
-                Answer: {
-                    AnswerText: "Opcija 1",
-                    IsApicture: false
-                },
-            },
-            {
-                AnswerId: 2,
-                Answer: {
-                    AnswerText: "Opcija 2",
-                    IsApicture: false
-                },
-            },
-            {
-                AnswerId: 3,
-                Answer: {
-                    AnswerText: "Opcija 3",
-                    IsApicture: false
-                },
-            },
-        ]
-    },
     ]);
+
+    const getQuestions = async () => {
+
+        fetch("https://si-main-server.herokuapp.com/api/campaign/1", {
+            method: 'GET',
+        }).then(res => res.json())
+            .then(res => {
+                console.log("response");
+                setCampaignId(res.CampaignID);
+                setName(res.Name);
+                setEndDate(res.EndDate);
+                setQuestions(res.Questions);
+            });
+    }
+
 
     const addAnswer = (answer) => {
         let rows;
         Array.isArray(answer) ? rows = [...userResponses, ...answer] : rows = [...userResponses, answer];
-        console.log("Duzina"+ answer.length);
+        console.log("Duzina" + answer.length);
         console.log(answer)
         console.log(rows)
         setUserResponses(rows);
@@ -124,6 +70,8 @@ export const CampaignProvider = (props) => {
         endDate,
         questions,
         currentQuestion,
+        userResponses,
+        getQuestions,
         addAnswer,
         getNextQuestion,
         getPreviousQuestion,
