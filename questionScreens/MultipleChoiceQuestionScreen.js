@@ -1,13 +1,12 @@
 import React, { useState } from 'react'
-import { Text, View, StyleSheet, Dimensions } from 'react-native';
+import { Text, View, StyleSheet, TouchableOpacity } from 'react-native';
 import ButtonContainer from '../ButtonContainer';
-import * as Animatable from 'react-native-animatable';
 import { RadioButton } from 'react-native-paper';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
+
 
 const MultipleChoiceQuestionScreen = ({ question }) => {
-  const [answer, setAnswer] = useState(question.QuestionAnswers[0].AnswerId);
-  const [checked, setChecked] = React.useState('first');
+  const [answers, setAnswers] = useState([]);
+  var [checked, setChecked] = React.useState([]);
 
   return (
     <View>
@@ -15,52 +14,28 @@ const MultipleChoiceQuestionScreen = ({ question }) => {
         <Text style={styles.text_question}>{question.QuestionText}</Text>
         <Text></Text>
         <View style={styles.action}>
-          
-           <View style={styles.button_container}>
+          {
+            question.QuestionAnswers.map((answer) => (
+              <TouchableOpacity key={answer.AnswerId}>
+                <View style={styles.button_container}>
                <View style={{flex:0}}>
                   <RadioButton
-                    // style={{marginRight: 50}}
-                    value="first"
-                    status={ checked === 'first' ? 'checked' : 'unchecked' }
-                    onPress={() => {setChecked('first'); setAnswer(question.QuestionAnswers[0].AnswerId)}}
+                    value={answer.AnswerId}
+                    status={ checked.find(element => element === answer.AnswerId) ? 'checked' : 'unchecked' }
+                    onPress={() => { checked.find(element => element === answer.AnswerId) ? (setChecked(prevState => (prevState.filter(element => element != answer.AnswerId)), setAnswers(prevState => (prevState.filter(element => element.AnswerId != answer.AnswerId))))) : (setChecked(prevState => ([...prevState, answer.AnswerId]), setAnswers(prevState => ([...prevState, {"QuestionId": question.QuestionId, "AnswerId": answer.AnswerId, "CustomAnswer": null}]))))}}
                   />
                 </View> 
-                <View style={{flex:1}}>
-                  <Text style={styles.text_footer}>{question.QuestionAnswers[0].Answer.AnswerText}</Text> 
+                <View style={{flex:1, marginTop: 5}}>
+                  <Text style={styles.text_footer}>{answer.Answer.AnswerText}</Text> 
                 </View> 
            </View> 
-
-           <View style={styles.button_container}>
-               <View style={{flex:0}}>
-                  <RadioButton
-                    // style={{marginRight: 50}}
-                    value="second"
-                    status={ checked === 'second' ? 'checked' : 'unchecked' }
-                    onPress={() => {setChecked('second'); setAnswer(question.QuestionAnswers[1].AnswerId)}}
-                  />
-                </View> 
-                <View style={{flex:1}}>
-                  <Text style={styles.text_footer}>{question.QuestionAnswers[1].Answer.AnswerText}</Text> 
-                </View> 
-           </View> 
-
-           <View style={styles.button_container}>
-               <View style={{flex:0}}>
-                  <RadioButton
-                    // style={{marginRight: 50}}
-                    value="third"
-                    status={ checked === 'third' ? 'checked' : 'unchecked' }
-                    onPress={() => {setChecked('third'); setAnswer(question.QuestionAnswers[2].AnswerId)}}
-                  />
-                </View> 
-                <View style={{flex:1}}>
-                  <Text style={styles.text_footer}>{question.QuestionAnswers[2].Answer.AnswerText}</Text> 
-                </View> 
-           </View> 
-                        
+                {/* <ChoiceComponent question={answer} /> */}
+              </TouchableOpacity>
+          ))
+          }               
         </View>
      </View>
-      <ButtonContainer answer={answer} />
+      <ButtonContainer answer={answers} />
     </View>
   )
 };
