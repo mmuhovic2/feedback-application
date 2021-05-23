@@ -302,6 +302,22 @@ const SignInScreen = ({navigation}) => {
                 <TouchableOpacity
                     style={styles.signIn}
                     onPress={() => {
+                        /*
+                        //cekamo da proradi server da testiramo
+                            try {
+                              const response = await axios.post(URL_SERVERA,{
+                                IPAdress:data.IPAdress,
+                                installationCode:data.installationCode
+                              });        
+                              if(response.status == 200){
+                                navigation.navigate("HomeScreen");
+                              }else{
+                                alert("Greška!");
+                              }
+                            } catch (error) {
+                              alert("Greška!");
+                            }
+                          */
                         navigation.navigate("HomeScreen");
                         storeData();
                         
