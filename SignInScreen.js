@@ -15,7 +15,6 @@ import { RadioButton } from 'react-native-paper';
 
 import {AsyncStorage} from 'react-native';
 
-
 const SignInScreen = ({navigation}) => {
 
     
