@@ -8,6 +8,8 @@ export const CampaignProvider = (props) => {
     const [name, setName] = useState("test");
     const [startDate, setStartDate] = useState("DateTime");
     const [endDate, setEndDate] = useState("DateTime");
+    const [userResponses, setUserResponses] = useState([
+    ]);
     const [questions, setQuestions] = useState([{
         QuestionId: 1,
         QuestionType: "single-answer",
@@ -74,7 +76,21 @@ export const CampaignProvider = (props) => {
             {
                 AnswerId: 1,
                 Answer: {
-                    AnswerText: "test 4",
+                    AnswerText: "Opcija 1",
+                    IsApicture: false
+                },
+            },
+            {
+                AnswerId: 2,
+                Answer: {
+                    AnswerText: "Opcija 2",
+                    IsApicture: false
+                },
+            },
+            {
+                AnswerId: 3,
+                Answer: {
+                    AnswerText: "Opcija 3",
                     IsApicture: false
                 },
             },
@@ -83,10 +99,12 @@ export const CampaignProvider = (props) => {
     ]);
 
     const addAnswer = (answer) => {
-        let rows = [...questions];
-        // let index = rows.findIndex((obj => obj.QuestionId == questionId));
-        rows[currentQuestion].QuestionAnswers[0].Answer.AnswerText = answer;
-        setQuestions(rows);
+        let rows;
+        Array.isArray(answer) ? rows = [...userResponses, ...answer] : rows = [...userResponses, answer];
+        console.log("Duzina"+ answer.length);
+        console.log(answer)
+        console.log(rows)
+        setUserResponses(rows);
     };
 
     const getNextQuestion = () => {
@@ -111,11 +129,9 @@ export const CampaignProvider = (props) => {
         getPreviousQuestion,
     }
 
-
     return (
         <CampaignContext.Provider value={values}>
             {props.children}
         </CampaignContext.Provider>
     );
 }
-
