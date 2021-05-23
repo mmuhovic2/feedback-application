@@ -25,13 +25,6 @@ export const CampaignProvider = (props) => {
                     IsApicture: false
                 },
             },
-            {
-                AnswerId: 2,
-                Answer: {
-                    AnswerText: "test",
-                    IsApicture: true
-                },
-            }
         ]
     },
     ]);
