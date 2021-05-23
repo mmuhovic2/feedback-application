@@ -304,9 +304,9 @@ const SignInScreen = ({navigation}) => {
                     onPress={async () => {
                         
                         try {
-                            let URL = "https://si-main-server.herokuapp.com/api/device/activate/" + data.installationCode;
+                            let URL = data.IPAdress + "api/device/activate/" + data.installationCode;
                             const response = await axios.get(URL);       
-                            if(response.status == 200){
+                            if(response.status == 200 && response.data.Name && response.data.DeviceId && response.data.CampaignID){
                                 navigation.navigate("HomeScreen");
                             }else{
                                 alert("Greška!");
