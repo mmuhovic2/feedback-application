@@ -3,17 +3,18 @@ import { Text, View, StyleSheet, TextInput } from 'react-native';
 import ButtonContainer from '../ButtonContainer';
 
 const TextQuestionScreen = ({ question }) => {
-  const [answer, setAnswer] = useState("...");
+  const [answerText, setAnswerText] = useState({});
 
   return (
     <View>
       <View style={styles.question}>
-        <Text>This is a text question</Text>
+        <Text style={styles.questionText}>{question.QuestionText}</Text>
         <TextInput
-          placeholder="Answer"
-          onChangeText={(value) => { setAnswer(value); }}></TextInput>
+          placeholder="Vaš odgovor..."
+          onChangeText={(value) => { setAnswerText(value); }}
+          style = {styles.input}></TextInput>
       </View>
-      <ButtonContainer answer={answer} />
+      <ButtonContainer answer={{"QuestionId": question.QuestionId, "AnswerId": null, "CustomAnswer": answerText}} />
     </View>
   )
 };
@@ -25,4 +26,14 @@ const styles = StyleSheet.create({
     height: '90%',
     justifyContent: 'center'
   },
+  input: {
+    backgroundColor: 'white',
+    width: 300,
+    height: 100,
+    borderRadius: 10
+  },
+  questionText: {
+    color: 'white',
+    fontSize: 18
+  }
 });

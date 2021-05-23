@@ -19,23 +19,32 @@ import MultipleChoiceQuestionScreen from './questionScreens/MultipleChoiceQuesti
 
 
 const QuestionsScreen = ({ navigation }) => {
-  const { questions, currentQuestion, getNextQuestion, getPreviousQuestion } = useContext(CampaignContext);
+
+  const [campaign, setCampaign] = useState(false);
+
+  const { getQuestions, questions, currentQuestion, getNextQuestion, getPreviousQuestion } = useContext(CampaignContext);
+
+
+  if (!campaign) {
+    getQuestions();
+    setCampaign(true);
+  }
 
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-          {questions[currentQuestion].QuestionType == "single-answer" &&
-            <SingleAnswerQuestionScreen question={questions[currentQuestion]}/>
-          }
-          {questions[currentQuestion].QuestionType == "scale" &&
-            <ScaleQuestionScreen question={questions[currentQuestion]}/>
-          }
-          {questions[currentQuestion].QuestionType == "text" &&
-            <TextQuestionScreen question={questions[currentQuestion]}/>
-          }
-          {questions[currentQuestion].QuestionType == "multiple-choice" &&
-            <MultipleChoiceQuestionScreen question={questions[currentQuestion]}/>
-          }
+        {questions[currentQuestion].QuestionType == "Single" &&
+          <SingleAnswerQuestionScreen question={questions[currentQuestion]} />
+        }
+        {questions[currentQuestion].QuestionType == "Scale" &&
+          <ScaleQuestionScreen question={questions[currentQuestion]} />
+        }
+        {questions[currentQuestion].QuestionType == "Text" &&
+          <TextQuestionScreen question={questions[currentQuestion]} />
+        }
+        {questions[currentQuestion].QuestionType == "Multiple" &&
+          <MultipleChoiceQuestionScreen question={questions[currentQuestion]} />
+        }
       </View>
     </View>
   );
