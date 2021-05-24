@@ -10,9 +10,9 @@ const ScaleQuestionScreen = ({ question }) => {
   return (
     <View>
       <View style={styles.question}>
-        <Text>{question.QuestionText}</Text>
+        <Text style={styles1.text}>{question.QuestionText}</Text>
         <Slider
-          style={{ width: 300, height: 40 }}
+          style={{ width: 300, height: 40, alignSelf: 'center', }}
           minimumValue={0}
           maximumValue={1}
           onValueChange={(value) => setAnswer(value)}
@@ -45,4 +45,9 @@ const styles1 = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between'
   },
+  text: {
+    paddingBottom: 40,
+    fontSize: 20,
+    alignSelf: 'center',
+  }
 });
