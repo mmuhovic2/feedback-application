@@ -35,19 +35,6 @@ const SignInScreen = ({navigation}) => {
         getData();
     }, [])
 
-    const storeData = async () => {
-        try{
-            console.log('kod ' + data.installationCode);
-            await AsyncStorage.setItem('IPAdress', data.IPAdress);
-            await AsyncStorage.setItem('InstallationCode', data.installationCode);
-            await AsyncStorage.setItem('PingInterval', data.ping);
-            await AsyncStorage.setItem('QuestionType', checked);
-        }
-        catch(e){
-            console.log('Spasavanje u AsyncStorage neuspjesno!');
-            console.log(e);
-        }
-    }
 
     const getData = async () => {
         try{
@@ -306,16 +293,26 @@ const SignInScreen = ({navigation}) => {
                         try {
                             let URL = data.IPAdress + "api/device/activate/" + data.installationCode;
                             const response = await axios.get(URL);       
-                            if(response.status == 200 && response.data.Name && response.data.DeviceId && response.data.CampaignID){
+                            if(response.status == 200 && response.data.Name && response.data.DeviceId && response.data.CampaignID){                                
+                                try{
+                                    await AsyncStorage.setItem('IPAdress', data.IPAdress);
+                                    await AsyncStorage.setItem('PingInterval', data.ping);
+                                    await AsyncStorage.setItem('QuestionType', checked);
+                                    await AsyncStorage.setItem('Name', response.data.Name);
+                                    await AsyncStorage.setItem('DaviceId', response.data.DeviceId);
+                                    await AsyncStorage.setItem('CampaignID', response.data.CampaignID);
+                                }
+                                catch(e){
+                                    console.log('Spasavanje u AsyncStorage neuspjesno!');
+                                    console.log(e);
+                                }
                                 navigation.navigate("HomeScreen");
                             }else{
                                 alert("Greška!");
                             }
                         } catch (error) {
                             alert("Greška!");
-                        }
-                        
-                        storeData();        
+                        }   
                     }}
                 >
                 <LinearGradient
