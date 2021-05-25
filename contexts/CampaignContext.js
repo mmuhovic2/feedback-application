@@ -31,6 +31,8 @@ export const CampaignProvider = (props) => {
 
     const getQuestions = async () => {
 
+        
+
         fetch("https://si-main-server.herokuapp.com/api/campaign/1", {
             method: 'GET',
         }).then(res => res.json())
@@ -43,6 +45,41 @@ export const CampaignProvider = (props) => {
             });
     }
 
+    const saveAnswer = async () => {
+
+       questions.forEach(element => {
+           if (questions.length==1){
+               data={ 
+                "QuestionId": element.QuestionId,
+                "AnswarId": element.AnswarId,
+                "CustomAnswer" :null
+               }
+           }else{
+           data=data + "," + { 
+               "QuestionId": element.QuestionId,
+               "AnswarId": element.AnswarId,
+               "CustomAnswer" :null
+              }
+            }
+       });
+
+      try{
+        let response= await fetch("https://si-main-server.herokuapp.com/api/response/save", {
+            method: 'POST',
+            headers: {
+                'Content-type':'application/json; charset=UTF=8',
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify({
+                "CampaignId" : campaignId,
+                "UserResponses" : [data]
+            }) 
+        });
+        var json = await response.json();
+      } catch (error) {
+        console.error(error);
+      }
+    }
 
     const addAnswer = (answer) => {
         let rows;
@@ -75,6 +112,7 @@ export const CampaignProvider = (props) => {
         addAnswer,
         getNextQuestion,
         getPreviousQuestion,
+        saveAnswer
     }
 
     return (
