@@ -18,8 +18,6 @@ import axios from 'axios';
 
 const SignInScreen = ({navigation}) => {
 
-    
-
     const [data, setData] = React.useState({
         IPAdress: '',
         installationCode: '',
@@ -43,8 +41,6 @@ const SignInScreen = ({navigation}) => {
             const PingIntervalValue = await  AsyncStorage.getItem('PingInterval');
             const QuestionType = await  AsyncStorage.getItem('QuestionType');
 
-            
-
             if(IPAdressValue != null && InstallationCodeValue != null && PingIntervalValue != null){
 
                 setData({
@@ -56,11 +52,6 @@ const SignInScreen = ({navigation}) => {
                     isValidUser: true
                 });
 
-                console.log('Vrijednost iz AsyncStorage: \n');
-                console.log('Ip adresa iz AS: ' + IPAdressValue);    
-                console.log('Installation code iz AS ' + InstallationCodeValue);    
-                console.log('Ping interval iz AS: ' + PingIntervalValue);
-                console.log('Question type iz AS: ' + QuestionType);
                 setData({
                     ...data,
                     IPAdress: IPAdressValue,
@@ -296,11 +287,11 @@ const SignInScreen = ({navigation}) => {
                             if(response.status == 200 && response.data.Name && response.data.DeviceId && response.data.CampaignID){                                
                                 try{
                                     await AsyncStorage.setItem('IPAdress', data.IPAdress);
-                                    await AsyncStorage.setItem('PingInterval', data.ping);
+                                    await AsyncStorage.setItem('PingInterval', data.ping.toString());
                                     await AsyncStorage.setItem('QuestionType', checked);
                                     await AsyncStorage.setItem('Name', response.data.Name);
-                                    await AsyncStorage.setItem('DaviceId', response.data.DeviceId);
-                                    await AsyncStorage.setItem('CampaignID', response.data.CampaignID);
+                                    await AsyncStorage.setItem('DeviceId', response.data.DeviceId.toString());
+                                    await AsyncStorage.setItem('CampaignID', response.data.CampaignID.toString());
                                 }
                                 catch(e){
                                     console.log('Spasavanje u AsyncStorage neuspjesno!');
