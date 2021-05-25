@@ -30,9 +30,6 @@ export const CampaignProvider = (props) => {
     ]);
 
     const getQuestions = async () => {
-
-        
-
         fetch("https://si-main-server.herokuapp.com/api/campaign/1", {
             method: 'GET',
         }).then(res => res.json())
@@ -46,21 +43,21 @@ export const CampaignProvider = (props) => {
     }
 
     const saveAnswer = async () => {
-
-       questions.forEach(element => {
-           if (questions.length==1){
-               data={ 
-                "QuestionId": element.QuestionId,
-                "AnswarId": element.AnswarId,
-                "CustomAnswer" :null
-               }
-           }else{
-           data=data + "," + { 
-               "QuestionId": element.QuestionId,
-               "AnswarId": element.AnswarId,
-               "CustomAnswer" :null
-              }
-            }
+        var data = [];
+       userResponses.forEach(element => {
+           if (element.CustomAnswer != null) {
+               data.push({
+                   "QuestionId": element.QuestionId,
+                   "AnswerId": null,
+                   "CustomAnswer": element.CustomAnswer
+               })
+           } else {
+                data.push({
+                    "QuestionId": element.QuestionId,
+                    "AnswerId": element.AnswerId,
+                    "CustomAnswer": null
+                })
+           }
        });
 
       try{
@@ -84,9 +81,9 @@ export const CampaignProvider = (props) => {
     const addAnswer = (answer) => {
         let rows;
         Array.isArray(answer) ? rows = [...userResponses, ...answer] : rows = [...userResponses, answer];
-        console.log("Duzina" + answer.length);
+        /*console.log("Duzina" + answer.length);
         console.log(answer)
-        console.log(rows)
+        console.log(rows)*/
         setUserResponses(rows);
     };
 
