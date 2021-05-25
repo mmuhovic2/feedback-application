@@ -30,9 +30,10 @@ export const CampaignProvider = (props) => {
     ]);
 
     const getQuestions = async () => {
-    //    const campaignId = await AsyncStorage.getItem('CampaignID');
+        const campaignId = await AsyncStorage.getItem('CampaignID');
+        console.log(campaignId);
 
-        fetch("https://si-main-server.herokuapp.com/api/campaign/1", {
+        fetch("https://si-main-server.herokuapp.com/api/campaign/" + campaignId, {
             method: 'GET',
         }).then(res => res.json())
             .then(res => {
@@ -49,7 +50,6 @@ export const CampaignProvider = (props) => {
         Array.isArray(answer) ? rows = [...userResponses, ...answer] : rows = [...userResponses, answer];
         console.log("Duzina" + answer.length);
         console.log(answer)
-        console.log(rows)
         setUserResponses(rows);
     };
 
