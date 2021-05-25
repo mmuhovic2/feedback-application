@@ -15,6 +15,7 @@ const ScaleQuestionScreen = ({ question }) => {
           style={{ width: 300, height: 40, alignSelf: 'center', }}
           minimumValue={0}
           maximumValue={1}
+          thumbTintColor="#f0eff3"
           onValueChange={(value) => setAnswer(value)}
           value={answer}
           minimumTrackTintColor="#FFFFFF"
@@ -36,7 +37,8 @@ export default ScaleQuestionScreen;
 const styles = StyleSheet.create({
   question: {
     height: '90%',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    padding: 15,
   },
 });
 const styles1 = StyleSheet.create({

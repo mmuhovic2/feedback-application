@@ -24,7 +24,7 @@ const SingleAnswerQuestionScreen = ({ question }) => {
   return (
     <View>
       <View style={styles.question}>
-        <Text>{question.QuestionText}</Text>
+        <Text style={styles.questionText}>{question.QuestionText}</Text>
       
         {question.QuestionAnswers[0].Answer.IsApicture === true ? 
           <View style={styles.flatlist}>  
@@ -82,4 +82,9 @@ const styles = StyleSheet.create({
     height: 100,
     width: 100,
   },
+  questionText: {
+    paddingBottom: 40,
+    fontSize: 20,
+    alignSelf: 'center',
+  }
 });
